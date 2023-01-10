@@ -25,14 +25,14 @@ resource "azurerm_linux_web_app" "example" {
   }
 }
 
-resource "azurerm_linux_web_app_slot" "example" {
+resource "azurerm_linux_web_app_slot" "slot-qas" {
   name           = "${var.prefix}-qas"
   app_service_id = azurerm_linux_web_app.example.id
 
   site_config {}
 }
 
-resource "azurerm_linux_web_app_slot" "example" {
+resource "azurerm_linux_web_app_slot" "slot-dev" {
   name           = "${var.prefix}-dev "
   app_service_id = azurerm_linux_web_app.example.id
 
