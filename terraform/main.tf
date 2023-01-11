@@ -1,10 +1,10 @@
 resource "azurerm_resource_group" "example" {
-  name     = "${{ secrets.PREFIX }}-resources"
-  location = var.location
+  name     = "$PREFIX-resources"
+  location = "$LOCATION"
 }
 
 resource "azurerm_service_plan" "example" {
-  name                = "${{ secrets.PREFIX }}-sp"
+  name                = "$PREFIX-sp"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   os_type             = "Linux"
@@ -13,7 +13,7 @@ resource "azurerm_service_plan" "example" {
 
 
 resource "azurerm_linux_web_app" "example" {
-  name                = "${{ secrets.PREFIX }}-example"
+  name                = "$PREFIX-example"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   service_plan_id     = azurerm_service_plan.example.id
@@ -26,14 +26,14 @@ resource "azurerm_linux_web_app" "example" {
 }
 
 resource "azurerm_linux_web_app_slot" "slot-qas" {
-  name           = "${{ secrets.PREFIX }}-qas"
+  name           = "$PREFIX-qas"
   app_service_id = azurerm_linux_web_app.example.id
 
   site_config {}
 }
 
 resource "azurerm_linux_web_app_slot" "slot-dev" {
-  name           = "${{ secrets.PREFIX }}-dev "
+  name           = "$PREFIX-dev "
   app_service_id = azurerm_linux_web_app.example.id
 
   site_config {}
