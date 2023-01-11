@@ -20,7 +20,7 @@ resource "azurerm_linux_web_app" "alwp" {
 
   site_config {
     application_stack {
-      node_version = "18-lts"
+      php_version = "8.1"
     }
   }
 
