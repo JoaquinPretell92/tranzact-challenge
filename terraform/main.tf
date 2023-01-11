@@ -45,7 +45,7 @@ resource "azurerm_app_service_source_control" "example" {
 }
 
 resource "azurerm_log_analytics_workspace" "example" {
-  name                = "tranzact-challenge-workspace"
+  name                = "tranzact-challenge-workspaces"
   location            = azurerm_resource_group.example.location
   resource_group_name = azurerm_resource_group.example.name
   sku                 = "PerGB2018"
