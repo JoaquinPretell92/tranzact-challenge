@@ -1,8 +1,8 @@
 terraform {
   backend "azurerm" {
-    resource_group_name  = "tranzact-challenge-eastus"
-    storage_account_name = "tranzactchallengest"
-    container_name       = "tranzact-tf-states"
+    resource_group_name  = "tranzact-challenge"
+    storage_account_name = "tranzactchallengestr"
+    container_name       = "tranzact-challenge-tfstates"
     key                  = "terraform-tranzact-challenge.tfstate"
   }
 }
