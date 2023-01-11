@@ -100,13 +100,20 @@ resource "azurerm_monitor_metric_alert" "maina" {
   scopes              = [azurerm_application_insights_web_test.example.id,data.azurerm_application_insights.example.id]
   description         = "PRD Web app availability test"
 
-application_insights_web_test_location_availability_criteria {
-  web_test_id = azurerm_application_insights_web_test.example.id
-  component_id = data.azurerm_application_insights.example.id
-  failed_location_count = 2
+  application_insights_web_test_location_availability_criteria {
+   web_test_id = azurerm_application_insights_web_test.example.id
+   component_id = data.azurerm_application_insights.example.id
+   failed_location_count = 2
 }
 
   action {
     action_group_id = azurerm_monitor_action_group.main.id
   }
+}
+
+resource "azurerm_linux_web_app_slot" "slot-dev" {
+  name           = "tranzact-challenge-dev"
+  app_service_id = azurerm_linux_web_app.alwp.id
+
+  site_config {}
 }
