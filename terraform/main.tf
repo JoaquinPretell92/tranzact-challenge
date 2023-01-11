@@ -83,3 +83,31 @@ resource "azurerm_application_insights_web_test" "aait" {
 XML
 
 }
+
+resource "azurerm_monitor_action_group" "main" {
+  name                = "tranzact-challene-action-group"
+  resource_group_name = azurerm_resource_group.rsc.name
+  short_name          = "prdAlert"
+  email_receiver {
+    name                    = "SendToAdmin"
+    email_address           = "joaquin.pretell@tecsup.edu.pe"
+    use_common_alert_schema = true
+  }
+}
+
+resource "azurerm_monitor_metric_alert" "maina" {
+  name                = "tranzact-challenge-metric-alert"
+  resource_group_name = azurerm_resource_group.rsc.name
+  scopes = [azurerm_application_insights_web_test.aait.id,data.azurerm_application_insights.example.id]
+  description         = "PING test alert"
+
+application_insights_web_test_location_availability_criteria {
+  web_test_id = azurerm_application_insights_web_test.aait.id
+  component_id = data.azurerm_application_insights.example.id
+  failed_location_count = 2
+}
+
+  action {
+    action_group_id = azurerm_monitor_action_group.main.id
+  }
+}
