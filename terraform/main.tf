@@ -83,3 +83,30 @@ resource "azurerm_application_insights_web_test" "aait" {
 XML
 
 }
+
+resource "azurerm_monitor_action_group" "main" {
+  name                = "actiongroup"
+  resource_group_name = azurerm_resource_group.rsc.name
+  short_name          = "alert"
+  email_receiver {
+    name                    = "SendToAdmins"
+    email_address           = "joaquin.pretell@tecsup.edu.pe"
+  }
+}
+
+resource "azurerm_monitor_metric_alert" "maina" {
+  name                = "example-metricalert"
+  resource_group_name = azurerm_resource_group.rsc.name
+  scopes              = [azurerm_application_insights_web_test.example.id,data.azurerm_application_insights.example.id]
+  description         = "PRD Web app availability test"
+
+application_insights_web_test_location_availability_criteria {
+  web_test_id = azurerm_application_insights_web_test.example.id
+  component_id = data.azurerm_application_insights.example.id
+  failed_location_count = 2
+}
+
+  action {
+    action_group_id = azurerm_monitor_action_group.main.id
+  }
+}
