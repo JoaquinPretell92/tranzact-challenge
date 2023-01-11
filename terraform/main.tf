@@ -82,7 +82,19 @@ resource "azurerm_application_insights_web_test" "aait" {
 </WebTest>
 XML
 
+} 
+
+resource "azurerm_monitor_action_group" "main" {
+  name                = "AdminTeamAlert"
+  resource_group_name = azurerm_resource_group.rsc.name
+  short_name          = "prdAlert"
+
+  email_receiver {
+    name          = "AdminTeam"
+    email_address = "joaquin.pretell@tecsup.edu.pe"
+  }
 }
+
 
 resource "azurerm_monitor_metric_alert" "maina" {
   name                = "MetricPrdAlert"
@@ -100,14 +112,3 @@ resource "azurerm_monitor_metric_alert" "maina" {
     action_group_id = azurerm_monitor_action_group.main.id
   }
 }  
-
-resource "azurerm_monitor_action_group" "main" {
-  name                = "AdminTeamAlert"
-  resource_group_name = azurerm_resource_group.rsc.name
-  short_name          = "prdAlert"
-
-  email_receiver {
-    name          = "AdminTeam"
-    email_address = "joaquin.pretell@tecsup.edu.pe"
-  }
-}
