@@ -1,22 +1,22 @@
-resource "azurerm_resource_group" "example" {
+resource "azurerm_resource_group" "rsc" {
   name     = "tranzact-challenge-resources"
   location = "East US"
 }
 
-resource "azurerm_service_plan" "example" {
+resource "azurerm_service_plan" "asp" {
   name                = "tranzact-challenge-sp"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rsc.location
+  resource_group_name = azurerm_resource_group.rsc.name
   os_type             = "Linux"
   sku_name            = "S1"
 }
 
 
-resource "azurerm_linux_web_app" "example" {
-  name                = "tranzact-challenge-example"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-  service_plan_id     = azurerm_service_plan.example.id
+resource "azurerm_linux_web_app" "alwp" {
+  name                = "tranzact-challenge-prd"
+  location            = azurerm_resource_group.rsc.location
+  resource_group_name = azurerm_resource_group.rsc.name
+  service_plan_id     = azurerm_service_plan.asp.id
 
   site_config {
     application_stack {
@@ -29,45 +29,45 @@ resource "azurerm_linux_web_app" "example" {
 
 resource "azurerm_linux_web_app_slot" "slot-qas" {
   name           = "tranzact-challenge-qas"
-  app_service_id = azurerm_linux_web_app.example.id
+  app_service_id = azurerm_linux_web_app.alwp.id
 
   site_config {}
 }
 
 resource "azurerm_linux_web_app_slot" "slot-dev" {
   name           = "tranzact-challenge-dev"
-  app_service_id = azurerm_linux_web_app.example.id
+  app_service_id = azurerm_linux_web_app.alwp.id
 
   site_config {}
 }
 
-resource "azurerm_app_service_source_control" "example" {
-  app_id        = azurerm_linux_web_app.example.id
+resource "azurerm_app_service_source_control" "alwpc" {
+  app_id        = azurerm_linux_web_app.alwp.id
   use_local_git = true
 }
 
-resource "azurerm_log_analytics_workspace" "example" {
+resource "azurerm_log_analytics_workspace" "alaw" {
   name                = "tranzact-challenge-workspace"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
+  location            = azurerm_resource_group.rsc.location
+  resource_group_name = azurerm_resource_group.rsc.name
   sku                 = "PerGB2018"
   retention_in_days   = 30
 }
 
-resource "azurerm_application_insights" "example" {
+resource "azurerm_application_insights" "aai" {
   name                = "tranzact-challenge-app-insight"
-  location            = azurerm_resource_group.example.location
-  resource_group_name = azurerm_resource_group.example.name
-  workspace_id        = azurerm_log_analytics_workspace.example.id
+  location            = azurerm_resource_group.rsc.location
+  resource_group_name = azurerm_resource_group.rsc.name
+  workspace_id        = azurerm_log_analytics_workspace.alaw.id
   application_type    = "Node.JS"
 
 }
 
-resource "azurerm_application_insights_web_test" "example" {
+resource "azurerm_application_insights_web_test" "aait" {
   name                    = "tf-test-appinsights-webtest"
-  location                = azurerm_application_insights.example.location
-  resource_group_name     = azurerm_resource_group.example.name
-  application_insights_id = azurerm_application_insights.example.id
+  location                = azurerm_application_insights.aai.location
+  resource_group_name     = azurerm_resource_group.rsc.name
+  application_insights_id = azurerm_application_insights.aai.id
   kind                    = "ping"
   frequency               = 300
   timeout                 = 60
