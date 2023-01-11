@@ -113,6 +113,6 @@ resource "azurerm_monitor_metric_alert" "maina" {
 }
 
 data "azurerm_application_insights" "daait" {
-  name="tranzact-challenge-app-insight"
+  name                = "tranzact-challenge-app-insight"
   resource_group_name = azurerm_resource_group.rsc.name
 }
