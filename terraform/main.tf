@@ -98,12 +98,12 @@ resource "azurerm_monitor_action_group" "main" {
 resource "azurerm_monitor_metric_alert" "maina" {
   name                = "tranzact-challenge-metric-alert"
   resource_group_name = azurerm_resource_group.rsc.name
-  scopes              = [azurerm_application_insights_web_test.aait.id, data.azurerm_application_insights.example.id]
+  scopes              = [azurerm_application_insights_web_test.aait.id, data.azurerm_application_insights.aait.id]
   description         = "PING test alert"
 
   application_insights_web_test_location_availability_criteria {
     web_test_id           = azurerm_application_insights_web_test.aait.id
-    component_id          = data.azurerm_application_insights.example.id
+    component_id          = data.azurerm_application_insights.aait.id
     failed_location_count = 2
   }
 
