@@ -23,6 +23,12 @@ resource "azurerm_linux_web_app" "example" {
       node_version = "18-lts"
     }
   }
+
+  app_settings {
+        APPINSIGHTS_INSTRUMENTATIONKEY = azurerm_application_insights.appinsight.instrumentation_key
+        APPLICATIONINSIGHTS_CONNECTION_STRING = azurerm_application_insights.appinsight.connection_string
+  }
+
 }
 
 resource "azurerm_linux_web_app_slot" "slot-qas" {
