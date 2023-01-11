@@ -20,7 +20,7 @@ resource "azurerm_linux_web_app" "example" {
 
   site_config {
     application_stack {
-      php_version = "8.0"
+      node_version = "18-lts"
     }
   }
 }
@@ -42,4 +42,20 @@ resource "azurerm_linux_web_app_slot" "slot-dev" {
 resource "azurerm_app_service_source_control" "example" {
   app_id        = azurerm_linux_web_app.example.id
   use_local_git = true
+}
+
+resource "azurerm_log_analytics_workspace" "example" {
+  name                = "tranzact-challenge-workspace"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  sku                 = "PerGB2018"
+  retention_in_days   = 30
+}
+
+resource "azurerm_application_insights" "example" {
+  name                = "tranzact-challenge-app-insights"
+  location            = azurerm_resource_group.example.location
+  resource_group_name = azurerm_resource_group.example.name
+  workspace_id        = azurerm_log_analytics_workspace.example.id
+  application_type    = "Node.JS"
 }
