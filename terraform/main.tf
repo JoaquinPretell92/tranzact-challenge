@@ -101,10 +101,10 @@ resource "azurerm_monitor_metric_alert" "maina" {
   scopes              = [azurerm_application_insights_web_test.aait.id, data.azurerm_application_insights.example.id]
   description         = "PING test alert"
 
-application_insights_web_test_location_availability_criteria {
-   web_test_id = azurerm_application_insights_web_test.aait.id
-   component_id = data.azurerm_application_insights.example.id
-   failed_location_count = 2
+  application_insights_web_test_location_availability_criteria {
+    web_test_id = azurerm_application_insights_web_test.aait.id
+    component_id = data.azurerm_application_insights.example.id
+    failed_location_count = 2
   }
 
   action {
