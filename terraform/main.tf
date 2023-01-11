@@ -82,4 +82,4 @@ resource "azurerm_application_insights_web_test" "aait" {
 </WebTest>
 XML
 
-} 
+}
