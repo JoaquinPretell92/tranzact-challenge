@@ -33,7 +33,7 @@ resource "azurerm_linux_web_app_slot" "slot-qas" {
 }
 
 resource "azurerm_linux_web_app_slot" "slot-dev" {
-  name           = "tranzact-challenge-dev "
+  name           = "tranzact-challenge-dev"
   app_service_id = azurerm_linux_web_app.example.id
 
   site_config {}
