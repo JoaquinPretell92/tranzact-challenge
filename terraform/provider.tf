@@ -12,6 +12,7 @@ provider "azurerm" {
   # If you're using version 1.x, the "features" block is not allowed.
   version = "=3.0.0"
   features {}
+  skip_provider_registration = true
 }
 
 data "azurerm_client_config" "current" {}
