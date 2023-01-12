@@ -41,6 +41,13 @@ resource "azurerm_linux_web_app_slot" "slot-dev" {
   site_config {}
 }
 
+resource "azurerm_linux_web_app_slot" "slot-extra" {
+  name           = "tranzact-challenge-extra"
+  app_service_id = azurerm_linux_web_app.alwp.id
+
+  site_config {}
+}
+
 resource "azurerm_app_service_source_control" "alwpc" {
   app_id        = azurerm_linux_web_app.alwp.id
   use_local_git = true
